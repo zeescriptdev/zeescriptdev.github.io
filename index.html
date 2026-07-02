@@ -252,7 +252,7 @@
       })
     }).then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; }); })
       .then(function (res) {
-        if (res.ok) {
+        if (res.ok && (res.j.success === true || res.j.success === 'true')) {
           form.style.display = 'none';
           msg.className = 'form-msg ok';
           msg.textContent = "You're on the list. We'll email you when the beta opens. ✓";
