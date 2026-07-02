@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Otto — the voice assistant that actually operates your computer</title>
+<meta name="description" content="Otto is a voice-native AI assistant that really operates your computer — on the AI subscription you already pay for, with open-source speech that never leaves your machine. Join the waitlist.">
+<meta property="og:title" content="Otto — the voice assistant that actually operates your computer">
+<meta property="og:description" content="Voice-native. Runs on your own AI subscription. Open-source speech, private by design. Join the waitlist.">
+<meta property="og:type" content="website">
+<style>
+  :root {
+    --bg: #0b0d12;
+    --bg-soft: #12151d;
+    --card: #161a24;
+    --border: #262c3a;
+    --text: #e8ebf2;
+    --muted: #9aa3b5;
+    --accent: #f5b642;
+    --accent-soft: rgba(245, 182, 66, 0.12);
+    --good: #5dd39e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+  header { padding: 28px 0; }
+  .nav { display: flex; align-items: baseline; justify-content: space-between; }
+  .logo { font-weight: 700; font-size: 1.25rem; letter-spacing: -0.02em; }
+  .logo .dot { color: var(--accent); }
+  .byline { color: var(--muted); font-size: 0.85rem; }
+
+  .hero { padding: 56px 0 40px; text-align: center; }
+  .eyebrow {
+    display: inline-block; font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--accent); background: var(--accent-soft); border: 1px solid var(--border);
+    padding: 6px 14px; border-radius: 999px; margin-bottom: 24px;
+  }
+  h1 { font-size: clamp(2rem, 5.4vw, 3.4rem); line-height: 1.12; letter-spacing: -0.03em; font-weight: 800; }
+  h1 em { font-style: normal; color: var(--accent); }
+  .sub {
+    max-width: 640px; margin: 20px auto 0; color: var(--muted); font-size: 1.12rem;
+  }
+
+  .signup { max-width: 520px; margin: 36px auto 0; }
+  .signup form { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+  .signup input[type=email] {
+    flex: 1 1 280px; padding: 14px 16px; font-size: 1rem; color: var(--text);
+    background: var(--bg-soft); border: 1px solid var(--border); border-radius: 10px; outline: none;
+  }
+  .signup input[type=email]:focus { border-color: var(--accent); }
+  .signup button {
+    padding: 14px 22px; font-size: 1rem; font-weight: 700; color: #1a1405;
+    background: var(--accent); border: none; border-radius: 10px; cursor: pointer;
+  }
+  .signup button:hover { filter: brightness(1.08); }
+  .signup button:disabled { opacity: 0.6; cursor: wait; }
+  .fineprint { margin-top: 12px; font-size: 0.82rem; color: var(--muted); }
+  .form-msg { margin-top: 14px; font-size: 0.95rem; display: none; }
+  .form-msg.ok { color: var(--good); display: block; }
+  .form-msg.err { color: #f08a8a; display: block; }
+  .form-msg a { color: var(--accent); }
+
+  .demo {
+    max-width: 640px; margin: 48px auto 0; text-align: left;
+    background: var(--bg-soft); border: 1px solid var(--border); border-radius: 14px;
+    padding: 20px 22px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.86rem; color: var(--muted);
+  }
+  .demo .you { color: var(--text); }
+  .demo .you b { color: var(--accent); font-weight: 600; }
+  .demo .act { padding-left: 1.2em; }
+  .demo .ok { color: var(--good); }
+  .demo .gate { color: var(--accent); }
+
+  section { padding: 56px 0 0; }
+  h2 { font-size: 1.6rem; letter-spacing: -0.02em; text-align: center; margin-bottom: 28px; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 22px;
+  }
+  .card h3 { font-size: 1.05rem; margin-bottom: 8px; letter-spacing: -0.01em; }
+  .card p { color: var(--muted); font-size: 0.93rem; }
+
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; counter-reset: step; }
+  .step { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 22px; }
+  .step::before {
+    counter-increment: step; content: counter(step);
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px; border-radius: 50%; margin-bottom: 12px;
+    background: var(--accent-soft); color: var(--accent); font-weight: 700; font-size: 0.9rem;
+  }
+  .step h3 { font-size: 1rem; margin-bottom: 6px; }
+  .step p { color: var(--muted); font-size: 0.93rem; }
+
+  .faq { max-width: 720px; margin: 0 auto; }
+  .faq details {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px 20px; margin-bottom: 10px;
+  }
+  .faq summary { cursor: pointer; font-weight: 600; }
+  .faq details p { margin-top: 10px; color: var(--muted); font-size: 0.95rem; }
+
+  .cta { text-align: center; padding: 64px 0 20px; }
+  .cta a {
+    display: inline-block; padding: 14px 28px; background: var(--accent); color: #1a1405;
+    font-weight: 700; border-radius: 10px; text-decoration: none;
+  }
+  footer {
+    margin-top: 56px; padding: 28px 0 40px; border-top: 1px solid var(--border);
+    color: var(--muted); font-size: 0.85rem; text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="nav">
+    <div class="logo">Otto<span class="dot">.</span></div>
+    <div class="byline">by zeescriptdev</div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <div class="eyebrow">macOS first · private beta soon</div>
+    <h1>The voice assistant that <em>actually operates</em> your computer.</h1>
+    <p class="sub">Otto listens in your language, thinks with the AI subscription you already pay for, and does real work — files, apps, browser, automation — asking your permission before anything risky.</p>
+
+    <div class="signup" id="waitlist">
+      <form id="wl-form" novalidate>
+        <input type="email" id="wl-email" name="email" placeholder="you@example.com" required autocomplete="email" aria-label="Email address">
+        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit" id="wl-btn">Join the waitlist</button>
+      </form>
+      <p class="form-msg" id="wl-msg" role="status"></p>
+      <p class="fineprint">No spam. We store your email only to invite you to the beta.</p>
+    </div>
+
+    <div class="demo" aria-label="Example interaction">
+      <p class="you"><b>You:</b> “Otto, gather this month’s invoices from Downloads into one folder and zip it.”</p>
+      <p class="act">→ found 14 PDFs matching “invoice” in ~/Downloads</p>
+      <p class="act">→ created ~/Documents/Invoices/June-2026</p>
+      <p class="act gate">⚠ move 14 files? [allowed: file-management] — <span class="ok">confirmed by voice</span></p>
+      <p class="act ok">✓ moved 14 files · ✓ created June-2026.zip · action log saved</p>
+    </div>
+  </div>
+
+  <section>
+    <h2>Not a chatbot. A doer.</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>Really does things</h3>
+        <p>Opens apps, manages files, browses the web, runs your workflows. An assistant with hands — every action logged, destructive ones always confirmed.</p>
+      </div>
+      <div class="card">
+        <h3>Your own AI — $0 extra</h3>
+        <p>Otto drives the Claude subscription you already have (more providers coming). We never meter, proxy, or resell your AI. Your account, your usage, your data.</p>
+      </div>
+      <div class="card">
+        <h3>Open-source speech, your language</h3>
+        <p>Whisper-class recognition and natural voices run locally, built on open-source models. English, Hindi, Urdu, Spanish and Arabic at launch — auto-detected, answered in kind.</p>
+      </div>
+      <div class="card">
+        <h3>Private by design</h3>
+        <p>Your voice never leaves your machine by default. Per-skill permissions, a visible action log, and a kill switch. You grant authority the way you would to a trusted employee.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How it works</h2>
+    <div class="steps">
+      <div class="step">
+        <h3>Hold the hotkey. Speak.</h3>
+        <p>Local speech recognition transcribes you instantly, in your language — no audio uploaded anywhere.</p>
+      </div>
+      <div class="step">
+        <h3>It plans with your AI.</h3>
+        <p>Otto hands the task to the AI you already use — starting with the Claude CLI on your machine — and turns intent into concrete steps.</p>
+      </div>
+      <div class="step">
+        <h3>It acts, within your rules.</h3>
+        <p>Steps run only inside the permissions you've granted. Anything irreversible waits for your confirmation, and everything lands in the action log.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Questions, answered</h2>
+    <div class="faq">
+      <details>
+        <summary>Which AI subscription do I need?</summary>
+        <p>At launch, Otto works with the Claude CLI (the Claude subscription many developers already have). Adapters for ChatGPT/Codex CLI, Gemini CLI, and direct API keys (OpenAI, Anthropic, OpenRouter) follow shortly after.</p>
+      </details>
+      <details>
+        <summary>Does my voice or data get uploaded?</summary>
+        <p>No. Speech-to-text and text-to-speech run on your machine using open-source models. Only the text of your request goes to the AI provider <em>you</em> connected — the same as when you use it directly.</p>
+      </details>
+      <details>
+        <summary>Can it delete files or send emails without asking?</summary>
+        <p>No. Otto works on graduated autonomy: you grant permissions per skill, destructive actions always require confirmation, and a session kill switch stops everything instantly.</p>
+      </details>
+      <details>
+        <summary>Which platforms?</summary>
+        <p>macOS first. Windows beta follows after launch. Mobile companion later.</p>
+      </details>
+    </div>
+  </section>
+
+  <div class="cta">
+    <a href="#waitlist">Join the waitlist</a>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">© 2026 zeescriptdev · Otto is in private development — built open-source-first.</div>
+</footer>
+
+<script>
+(function () {
+  var form = document.getElementById('wl-form');
+  var msg = document.getElementById('wl-msg');
+  var btn = document.getElementById('wl-btn');
+  // endpoint assembled at runtime to keep the inbox address out of static scrapes
+  var ep = ['https://formsubmit.co/ajax/', 'zeeshan', '@', 'intelehealth', '.org'].join('');
+  var contact = ['zeeshan', '@', 'intelehealth', '.org'].join('');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var email = document.getElementById('wl-email').value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      msg.className = 'form-msg err';
+      msg.textContent = 'Please enter a valid email address.';
+      return;
+    }
+    btn.disabled = true;
+    btn.textContent = 'Joining…';
+    fetch(ep, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        email: email,
+        _subject: 'Otto waitlist signup',
+        _template: 'table'
+      })
+    }).then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (res) {
+        if (res.ok) {
+          form.style.display = 'none';
+          msg.className = 'form-msg ok';
+          msg.textContent = "You're on the list. We'll email you when the beta opens. ✓";
+        } else { throw new Error('submit failed'); }
+      })
+      .catch(function () {
+        btn.disabled = false;
+        btn.textContent = 'Join the waitlist';
+        msg.className = 'form-msg err';
+        msg.innerHTML = 'Something went wrong. Email us at <a href="mailto:' + contact + '?subject=Otto%20waitlist">' + contact + '</a> and we\'ll add you by hand.';
+      });
+  });
+})();
+</script>
+
+</body>
+</html>
